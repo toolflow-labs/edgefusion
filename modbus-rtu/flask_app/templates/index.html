@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>双枪充电桩模拟器</title>
+    <style>
+        .gun-card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            float: left;
+        }
+        .status-label {
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .btn {
+            padding: 5px 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>双枪充电桩模拟器</h1>
+    
+    <!-- 1号枪状态卡片 -->
+    <div class="gun-card">
+        <h2>1号充电枪</h2>
+        <div class="status-label">电压：<span id="gun1-voltage">0</span> V</div>
+        <div class="status-label">电流：<span id="gun1-current">0</span> A</div>
+        <div class="status-label">功率：<span id="gun1-power">0</span> kW</div>
+        <div class="status-label">SOC：<span id="gun1-soc">0</span> %</div>
+        <div class="status-label">状态：<span id="gun1-status">空闲</span></div>
+        <div class="status-label">温度：<span id="gun1-temp">0</span> ℃</div>
+        <div class="status-label">充电金额：<span id="gun1-amount">0</span> 元</div>
+        
+        <div>
+            <button class="btn" onclick="setGunStatus('gun1', 0)">设为空闲</button>
+            <button class="btn" onclick="setGunStatus('gun1', 2)">启动充电</button>
+            <button class="btn" onclick="setGunStatus('gun1', 5)">模拟故障</button>
+        </div>
+    </div>
+
+    <!-- 2号枪状态卡片 -->
+    <div class="gun-card">
+        <h2>2号充电枪</h2>
+        <div class="status-label">电压：<span id="gun2-voltage">0</span> V</div>
+        <div class="status-label">电流：<span id="gun2-current">0</span> A</div>
+        <div class="status-label">功率：<span id="gun2-power">0</span> kW</div>
+        <div class="status-label">SOC：<span id="gun2-soc">0</span> %</div>
+        <div class="status-label">状态：<span id="gun2-status">空闲</span></div>
+        <div class="status-label">温度：<span id="gun2-temp">0</span> ℃</div>
+        <div class="status-label">充电金额：<span id="gun2-amount">0</span> 元</div>
+        
+        <div>
+            <button class="btn" onclick="setGunStatus('gun2', 0)">设为空闲</button>
+            <button class="btn" onclick="setGunStatus('gun2', 2)">启动充电</button>
+            <button class="btn" onclick="setGunStatus('gun2', 5)">模拟故障</button>
+        </div>
+    </div>
+
+    <script>
+        // 状态码映射
+        const statusMap = {
+            0: '空闲',
+            1: '已连接',
+            2: '启动充电',
+            3: '充电中',
+            4: '完成',
+            5: '故障'
+        };
+
+        // 获取充电桩实时状态
+        function getChargerStatus() {
+            fetch('/api/charger/status')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        // 更新1号枪状态
+                        updateGunStatus('gun1', data.data.gun1);
+                        // 更新2号枪状态
+                        updateGunStatus('gun2', data.data.gun2);
+                    }
+                })
+                .catch(err => console.error('获取状态失败：', err));
+        }
+
+        // 更新单枪状态到页面
+        function updateGunStatus(gunId, statusData) {
+            document.getElementById(`${gunId}-voltage`).textContent = statusData.voltage.toFixed(1);
+            document.getElementById(`${gunId}-current`).textContent = statusData.current.toFixed(2);
+            document.getElementById(`${gunId}-power`).textContent = statusData.power.toFixed(3);
+            document.getElementById(`${gunId}-soc`).textContent = statusData.soc.toFixed(1);
+            document.getElementById(`${gunId}-status`).textContent = statusMap[statusData.status];
+            document.getElementById(`${gunId}-temp`).textContent = statusData.temperature.toFixed(1);
+            document.getElementById(`${gunId}-amount`).textContent = statusData.charge_amount.toFixed(2);
+        }
+
+        // 设置充电桩枪状态
+        function setGunStatus(gunId, status) {
+            fetch('/api/charger/set_status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    gun_id: gunId,
+                    status: status
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.msg);
+                getChargerStatus(); // 刷新状态
+            })
+            .catch(err => console.error('设置状态失败：', err));
+        }
+
+        // 页面加载后，定时获取状态（1秒刷新一次）
+        window.onload = function() {
+            getChargerStatus();
+            setInterval(getChargerStatus, 1000);
+        };
+    </script>
+</body>
+</html>
