@@ -153,6 +153,7 @@ python quick_test.py
 
 ## 文档
 
+- [docs/linux-ipc-deployment-guide.md](docs/linux-ipc-deployment-guide.md) - 面向新手的 Linux 工控机部署、更新、维护与 VirtualBox 验证手册
 - [DEPLOYMENT.md](DEPLOYMENT.md) - Linux 部署与 `systemd` 运维说明
 - [USAGE.md](USAGE.md) - 联调、模拟器、Web 界面和 API 使用说明
 - [ARCHITECTURE.md](ARCHITECTURE.md) - 系统架构和技术选型说明

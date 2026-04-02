@@ -4,7 +4,18 @@
 
 ## 现在优先看
 
-### 1. 设备模型与正式字段
+### 1. Linux 工控机部署、更新与维护
+
+看 [linux-ipc-deployment-guide.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/linux-ipc-deployment-guide.md)
+
+适合场景：
+
+- 第一次把 EdgeFusion 部署到 Linux 工控机
+- 想弄清楚命令到底在哪台机器上执行
+- 想补齐网络配置、升级、回滚、备份、恢复的完整流程
+- 手头没有设备，想先用 VirtualBox 把部署链路跑通
+
+### 2. 设备模型与正式字段
 
 看 [device-models-and-adaptation.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/device-models-and-adaptation.md)
 
@@ -16,7 +27,7 @@
 
 这是当前最重要的主文档。
 
-### 2. 真机 Modbus 快速接入
+### 3. 真机 Modbus 快速接入
 
 看 [modbus-device-onboarding-fast-path.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/modbus-device-onboarding-fast-path.md)
 
@@ -28,7 +39,7 @@
 
 如果你只想看最短 checklist 和最小字段表，直接看 [device-onboarding-cheatsheet.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/device-onboarding-cheatsheet.md)
 
-### 3. 可复制模板
+### 4. 可复制模板
 
 看 [modbus-explicit-mapping-templates.yaml](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/examples/modbus-explicit-mapping-templates.yaml)
 
@@ -57,8 +68,9 @@
 
 ## 推荐阅读顺序
 
-1. [device-models-and-adaptation.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/device-models-and-adaptation.md)
-2. [device-onboarding-cheatsheet.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/device-onboarding-cheatsheet.md)
-3. [modbus-device-onboarding-fast-path.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/modbus-device-onboarding-fast-path.md)
-4. [modbus-explicit-mapping-templates.yaml](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/examples/modbus-explicit-mapping-templates.yaml)
-5. [architecture-layering-and-device-adaptation.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/architecture-layering-and-device-adaptation.md)
+1. [linux-ipc-deployment-guide.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/linux-ipc-deployment-guide.md)
+2. [device-models-and-adaptation.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/device-models-and-adaptation.md)
+3. [device-onboarding-cheatsheet.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/device-onboarding-cheatsheet.md)
+4. [modbus-device-onboarding-fast-path.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/modbus-device-onboarding-fast-path.md)
+5. [modbus-explicit-mapping-templates.yaml](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/examples/modbus-explicit-mapping-templates.yaml)
+6. [architecture-layering-and-device-adaptation.md](/C:/Users/Lenovo/Desktop/桌面工作空间/终端台区智能化项目/后台项目/edgefusion/docs/architecture-layering-and-device-adaptation.md)
