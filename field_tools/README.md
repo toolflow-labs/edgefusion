@@ -1,13 +1,33 @@
-# 现场 Modbus 调试小工具
+# 现场接入工具包
 
-这组脚本用于第一次出差调试前准备。目标不是替代 EdgeFusion 正式运行时，而是在现场快速回答四个问题：
+这个目录用于第一次出差调试前准备。目标不是替代 EdgeFusion 正式运行时，而是在现场快速回答两个问题：
+
+1. 设备到底支持哪种接入方式
+2. 如果是 Modbus，链路、字段和控制点能不能测通
+
+## 文件说明
+
+- `device_intake_template.md`：每台现场设备填写一份，确认接入口、协议、字段、控制和证据。
+- `field_modbus_doctor.py`：Modbus TCP/RTU 链路和 unit id 诊断。
+- `field_modbus_read_table.py`：Modbus 点表批量读取。
+- `field_modbus_safe_write.py`：Modbus 安全写入测试。
+- `http_device_check.md`：HTTP/JSON 设备最小确认清单。
+- `mqtt_device_check.md`：MQTT 设备最小确认清单。
+- `can_device_check.md`：CAN 设备最小确认清单。
+- `ocpp_device_check.md`：OCPP 充电桩最小确认清单。
+
+推荐先填 `device_intake_template.md`，再根据设备实际协议使用对应工具或清单。
+
+## Modbus 工具目标
+
+Modbus 脚本用于快速回答四个问题：
 
 1. 设备链路通不通
 2. unit id 对不对
 3. 寄存器地址、类型、倍率、字序对不对
 4. 控制寄存器能不能安全写入
 
-脚本都在 `field_tools/` 目录下，每个文件都可以单独复制到现场电脑运行。只依赖 `pymodbus`。
+三个脚本都可以单独复制到现场电脑运行。只依赖 `pymodbus`。
 
 ## 0. 准备环境
 
