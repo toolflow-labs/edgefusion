@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pilot EMS</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; color: #222; }
+    .device { background: #fff; border: 1px solid #ddd; border-radius: 6px; padding: 12px; margin: 12px 0; }
+    .error { color: #b00020; white-space: pre-wrap; }
+    table { border-collapse: collapse; width: 100%; }
+    td, th { border-bottom: 1px solid #eee; padding: 6px; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1 id="title">Pilot EMS</h1>
+  <p>更新时间：<span id="timestamp">-</span></p>
+  <p>模式：<span id="mode">-</span></p>
+  <button onclick="collectNow()">立即采集</button>
+  <div id="devices"></div>
+
+  <script>
+    function table(data) {
+      const el = document.createElement("table");
+      for (const key of Object.keys(data || {})) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<th>${key}</th><td>${data[key]}</td>`;
+        el.appendChild(row);
+      }
+      return el;
+    }
+    function render(snapshot) {
+      document.getElementById("title").innerText = snapshot.site.name || "Pilot EMS";
+      document.getElementById("timestamp").innerText = snapshot.timestamp || "-";
+      const root = document.getElementById("devices");
+      root.innerHTML = "";
+      for (const device of snapshot.devices || []) {
+        const box = document.createElement("div");
+        box.className = "device";
+        box.innerHTML = `<h2>${device.device_id} <small>${device.device_type}</small></h2>`;
+        box.appendChild(table(device.data || {}));
+        if ((device.errors || []).length) {
+          const err = document.createElement("pre");
+          err.className = "error";
+          err.innerText = device.errors.join("\n");
+          box.appendChild(err);
+        }
+        root.appendChild(box);
+      }
+    }
+    async function refresh() {
+      const snapshot = await (await fetch("/api/snapshot")).json();
+      render(snapshot);
+      const mode = await (await fetch("/api/mode")).json();
+      document.getElementById("mode").innerText = `${mode.mode} (${mode.reason})`;
+    }
+    async function collectNow() {
+      await fetch("/api/collect", {method: "POST"});
+      await refresh();
+    }
+    refresh();
+    setInterval(refresh, 3000);
+  </script>
+</body>
+</html>

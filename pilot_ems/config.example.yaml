@@ -1,0 +1,83 @@
+site:
+  name: 试点台区
+
+collect_interval: 5
+
+mode:
+  export_protect_enabled: true
+  export_limit_w: 5000
+  export_enter_ratio: 1.0
+  storage_soc_soft_limit: 95
+
+devices:
+  - id: meter_1
+    name: 总表
+    type: grid_meter
+    protocol: modbus
+    connection:
+      transport: tcp
+      host: 192.168.1.10
+      port: 502
+      unit_id: 1
+      timeout: 3
+    telemetry:
+      power: {area: holding, addr: 32001, type: i32, scale: 1, unit: W}
+
+  - id: pv_1
+    name: 光伏
+    type: pv
+    protocol: modbus
+    connection:
+      transport: tcp
+      host: 192.168.1.11
+      port: 502
+      unit_id: 1
+      timeout: 3
+    telemetry:
+      power: {area: input, addr: 30001, type: i32, scale: 1, unit: W}
+      power_limit: {area: holding, addr: 41001, type: u16, scale: 1, unit: W}
+      min_power_limit: {area: holding, addr: 41002, type: u16, scale: 1, unit: W}
+    controls:
+      power_limit: {area: holding, addr: 41001, type: u16, min: 0, max: 100000}
+
+  - id: storage_1
+    name: 储能
+    type: energy_storage
+    protocol: modbus
+    connection:
+      transport: rtu
+      serial_port: COM3
+      baudrate: 9600
+      bytesize: 8
+      parity: N
+      stopbits: 1
+      unit_id: 2
+      timeout: 3
+    telemetry:
+      soc: {area: holding, addr: 33001, type: u16, scale: 1, unit: "%"}
+      power: {area: holding, addr: 33002, type: i32, scale: 0.1, unit: kW}
+      max_charge_power: {area: holding, addr: 33006, type: u16, scale: 1, unit: W}
+    controls:
+      mode: {area: holding, addr: 43000, type: u16, min: 0, max: 3}
+      charge_power: {area: holding, addr: 43001, type: u16, min: 0, max: 50000}
+
+  - id: charger_1
+    name: 充电桩
+    type: charger
+    protocol: modbus
+    connection:
+      transport: tcp
+      host: 192.168.1.12
+      port: 502
+      unit_id: 1
+      timeout: 3
+    children:
+      - id: gun1
+        name: 1号枪
+        type: charging_connector
+        telemetry:
+          status: {area: holding, addr: 0x2000, type: u16}
+          power: {area: holding, addr: 0x200E, type: u32, scale: 0.001, unit: kW}
+          max_power: {area: holding, addr: 0x2014, type: u16, scale: 1000, unit: W}
+        controls:
+          power_limit: {area: holding, addr: 0x4000, type: u16, min: 0, max: 120}
