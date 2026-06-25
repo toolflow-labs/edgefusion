@@ -129,7 +129,7 @@ python field_http_check.py --base-url http://192.168.1.20 --get /api/status --au
 python field_http_check.py ^
   --base-url http://192.168.1.20 ^
   --post /api/control ^
-  --body "{\"cmd\":\"set_power_limit\",\"value\":3000}" ^
+  --body "{""cmd"":""set_power_limit"",""value"":3000}" ^
   --json-report http_write_dry_run.json
 ```
 
@@ -139,7 +139,7 @@ python field_http_check.py ^
 python field_http_check.py ^
   --base-url http://192.168.1.20 ^
   --post /api/control ^
-  --body "{\"cmd\":\"set_power_limit\",\"value\":3000}" ^
+  --body "{""cmd"":""set_power_limit"",""value"":3000}" ^
   --confirm-write ^
   --json-report http_write_report.json
 ```
@@ -185,7 +185,7 @@ python field_mqtt_check.py ^
 python field_mqtt_check.py ^
   --host 192.168.1.30 ^
   --pub-topic "device/ess/1/control" ^
-  --payload "{\"cmd\":\"set_power_limit\",\"value\":3000}" ^
+  --payload "{""cmd"":""set_power_limit"",""value"":3000}" ^
   --json-report mqtt_write_dry_run.json
 ```
 
@@ -195,7 +195,7 @@ python field_mqtt_check.py ^
 python field_mqtt_check.py ^
   --host 192.168.1.30 ^
   --pub-topic "device/ess/1/control" ^
-  --payload "{\"cmd\":\"set_power_limit\",\"value\":3000}" ^
+  --payload "{""cmd"":""set_power_limit"",""value"":3000}" ^
   --confirm-publish ^
   --json-report mqtt_write_report.json
 ```
@@ -208,7 +208,7 @@ python field_mqtt_check.py ^
   --topic "device/ess/1/telemetry" ^
   --ack-topic "device/ess/1/ack" ^
   --pub-topic "device/ess/1/control" ^
-  --payload "{\"cmd\":\"set_power_limit\",\"value\":3000}" ^
+  --payload "{""cmd"":""set_power_limit"",""value"":3000}" ^
   --confirm-publish ^
   --json-report mqtt_control_report.json
 ```
