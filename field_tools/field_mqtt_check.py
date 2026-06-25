@@ -172,7 +172,8 @@ def main(argv=None):
                 publish_item["note"] = "未加 --confirm-publish，未真正发布控制 payload"
             else:
                 result = client.publish(args.pub_topic, payload or "", qos=args.qos)
-                result.wait_for_publish(timeout=args.wait_seconds)
+                while not result.is_published() and time.time() < time.time() + args.wait_seconds:
+                    time.sleep(0.1)
                 publish_item["success"] = result.rc == 0
                 publish_item["rc"] = result.rc
             report["publish"] = publish_item
