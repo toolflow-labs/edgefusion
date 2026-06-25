@@ -1,0 +1,31 @@
+# 现场 Modbus 最小点表。
+# 第一轮只填 2-5 个关键字段，不抄完整厂家点表。
+
+telemetry:
+  - name: power
+    area: holding
+    addr: 32002
+    type: i32
+    scale: 0.1
+    unit: kW
+    # word_order: big
+    # byte_order: big
+
+  - name: status
+    area: input
+    addr: 30001
+    type: u16
+    enum:
+      0: offline
+      1: online
+
+controls:
+  - name: power_limit
+    area: holding
+    addr: 42001
+    type: u16
+    scale: 1
+    unit: W
+    min: 0
+    max: 30000
+    safe_test_value: 3000
