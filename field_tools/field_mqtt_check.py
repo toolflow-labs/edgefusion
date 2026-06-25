@@ -101,6 +101,12 @@ def wait_for_messages(messages, count, wait_seconds):
         time.sleep(0.2)
 
 
+def wait_for_publish(result, wait_seconds):
+    deadline = time.time() + wait_seconds
+    while not result.is_published() and time.time() < deadline:
+        time.sleep(0.1)
+
+
 def build_parser():
     parser = argparse.ArgumentParser(description="现场 MQTT 接口最小检查。")
     parser.add_argument("--host", required=True, help="broker 地址")
@@ -172,9 +178,8 @@ def main(argv=None):
                 publish_item["note"] = "未加 --confirm-publish，未真正发布控制 payload"
             else:
                 result = client.publish(args.pub_topic, payload or "", qos=args.qos)
-                while not result.is_published() and time.time() < time.time() + args.wait_seconds:
-                    time.sleep(0.1)
-                publish_item["success"] = result.rc == 0
+                wait_for_publish(result, args.wait_seconds)
+                publish_item["success"] = result.rc == 0 and result.is_published()
                 publish_item["rc"] = result.rc
             report["publish"] = publish_item
 
